@@ -32,7 +32,7 @@
         <nav class="card__nav">
           <ul class="list list--nav">
             <li><a href="#">Movie</a></li>
-            <li><a href="#">Reviews</a></li>
+            <li><a href="../searchReview?title={{movie.title}}" target="_blank">Reviews</a></li>
           </ul>
         </nav>
       </header>
@@ -40,7 +40,7 @@
       <main class="card__body">
         
         <div class="card__info">
-          <h1 class="card__title">{{movie.title|safe}}</h1>
+          <h1 class="card__title">{{movie.title}}</h1>
       
           <p class="card__slug"> 출연진 : {{movie.actor}}</p>
         

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/static/css/reviewCard.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+</head>
+<body>
+<div class="movie-info">
+</div>
+
+
+<div class="cont">
+    <div class="stars">
+    <form action="../createReview/" method="POST">{% csrf_token %}
+        <input type="hidden" value='{{title}}' name="title"/>
+        <div class="nickname-star">
+        <textarea placeholder="닉네임을 입력해주세요" class="nickname" col="1" name="name"></textarea>
+    <input class="star star-5" id="star-5-2" type="radio" value='5' name="star"/>
+    <label class="star star-5" for="star-5-2"></label>
+    <input class="star star-4" id="star-4-2" type="radio" value='4' name="star"/>
+    <label class="star star-4" for="star-4-2"></label>
+    <input class="star star-3" id="star-3-2" type="radio" value='3' name="star"/>
+    <label class="star star-3" for="star-3-2"></label>
+    <input class="star star-2" id="star-2-2" type="radio" value='2' name="star"/>
+    <label class="star star-2" for="star-2-2"></label>
+    <input class="star star-1" id="star-1-2" type="radio" value='1' name="star"/>
+    <label class="star star-1" for="star-1-2"></label>
+    </div>
+    <div class="rev-box">
+        <textarea placeholder="리뷰를 작성해주세요" class="review" col="30" name="reviewText"></textarea>
+        <button class="btn" type="submit">리뷰 작성</button>
+    </div>
+    </form>
+    </div>
+</div>
+
+{% for review in reviews%}
+<div class="cont">
+    <div>
+        <label class="review-name"value="{{review.name}}" >{{review.name}}</label>
+    </div>
+    <div>
+        <label class="review-score"value="{{review.reviewScore}}"  id="{{review.id}}"> 평점 : {{review.reviewScore}}</label>
+    </div>
+    <label class="star"></label>
+    <div style="border-top:#444 1px solid;">
+        <label class="review-text">{{review.reviewText}}</label>
+    </div>
+</div>
+{% endfor %}
+
+</body>
+</html>
+

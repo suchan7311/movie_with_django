@@ -1,6 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
+from django.urls import reverse
 from pathlib import Path
+from .models import *
+from django.core.exceptions import ObjectDoesNotExist
 # Create your views here.
 import json,os
 import urllib.request
@@ -33,6 +36,10 @@ def searchMovie(request):
             movie['actor']=replaceActor.replace("|",",")
             replaceDirector=movie['director']
             movie['director']=replaceDirector.replace("|","")
+            replaceTitle=movie['title']
+            movie['title']=replaceTitle.replace("<b>","")
+            replaceTitle=movie['title']
+            movie['title']=replaceTitle.replace("</b>","")
         content = {
             'movies': movies
         }
@@ -40,3 +47,31 @@ def searchMovie(request):
 
 
     return ("실패")
+
+
+
+def searchReview(request):
+    movieTitle=request.GET.get('title')
+    try:
+        reviews=Review.objects.filter(movieTitle=movieTitle)
+        content={
+            'reviews':reviews,
+            'title':movieTitle
+        }
+        print("리뷰",reviews)
+    except ObjectDoesNotExist:
+        content={}
+    return render(request,'movieSearchApp/searchReview.html',content)
+
+
+
+
+
+def createReview(request):
+    score=request.POST['star']
+    text=request.POST['reviewText']
+    name=request.POST['name']
+    title=request.POST['title']
+    new_review=Review(movieTitle=title,name=name,reviewText=text,reviewScore=score)
+    new_review.save()
+    return render(request,'movieSearchApp/index.html')
