@@ -2,7 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="/static/css/reviewCard.css">
-    
+    <link rel="stylesheet" href="/static/css/movieCard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
 </head>
 <body>
@@ -10,8 +10,24 @@
 </div>
 
 
+<div class="card" style="background-image: url({{image}});">
+    <div class="card__inner">
+      
+      <main class="card__body">
+        
+        <div class="card__info">
+          <h1 class="card__title">{{title}}</h1>
+      
+  
+        </div>
+      </main>
+    </div>
+  </div>
+
+
 <div class="cont">
     <div class="stars">
+    <h1>리뷰 작성</h1>
     <form action="../createReview/" method="POST">{% csrf_token %}
         <input type="hidden" value='{{title}}' name="title"/>
         <div class="nickname-star">
@@ -29,23 +45,27 @@
     </div>
     <div class="rev-box">
         <textarea placeholder="리뷰를 작성해주세요" class="review" col="30" name="reviewText"></textarea>
-        <button class="btn" type="submit">리뷰 작성</button>
+        <button class="btn " type="submit">리뷰 제출</button>
     </div>
     </form>
     </div>
 </div>
-
+<div>
+    
+</div>
 {% for review in reviews%}
 <div class="cont">
+
     <div>
+        <label class="review-text">"{{review.reviewText}}"</label>
+    </div>
+    
+
+    <div style="border-top:#444 1px solid; padding : 10px">
+
         <label class="review-name"value="{{review.name}}" >{{review.name}}</label>
-    </div>
-    <div>
         <label class="review-score"value="{{review.reviewScore}}"  id="{{review.id}}"> 평점 : {{review.reviewScore}}</label>
-    </div>
-    <label class="star"></label>
-    <div style="border-top:#444 1px solid;">
-        <label class="review-text">{{review.reviewText}}</label>
+
     </div>
 </div>
 {% endfor %}

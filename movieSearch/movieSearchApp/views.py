@@ -51,12 +51,28 @@ def searchMovie(request):
 
 
 def searchReview(request):
+    secret_file = json.loads(open(secretJson).read())
+    client_id = secret_file['CLIENT_ID']
+    client_secret = secret_file['CLIENT_SECRET']
+    q = request.GET.get('title')
+
+    encText = urllib.parse.quote("{}".format(q))
+    url = "https://openapi.naver.com/v1/search/movie?query=" + encText  # json 결과
+    movie_api_request = urllib.request.Request(url)
+    movie_api_request.add_header("X-Naver-Client-Id", client_id)
+    movie_api_request.add_header("X-Naver-Client-Secret", client_secret)
+    response = urllib.request.urlopen(movie_api_request)
+    response_body = response.read()
+    result = json.loads(response_body)
+    movies = result.get('items')
+    image=movies[0]['image']
     movieTitle=request.GET.get('title')
     try:
         reviews=Review.objects.filter(movieTitle=movieTitle)
         content={
             'reviews':reviews,
-            'title':movieTitle
+            'title':movieTitle,
+            'image':image
         }
         print("리뷰",reviews)
     except ObjectDoesNotExist:
