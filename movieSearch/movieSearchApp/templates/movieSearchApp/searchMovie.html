@@ -1,0 +1,63 @@
+ 
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <link rel="stylesheet" href="/static/css/movieCard.css">
+  <style>
+
+    .search-bar {
+      width: 1000px;
+    }
+    </style>
+</head>
+<body>
+  <form action="../searchMovie" method="GET">
+    <div class="mx-auto mt-5 search-bar input-group mb-3">
+        <img src="/static/image/logo.png" style="width: 6%; height: auto; margin-right:1rem">
+      <input name="input-movie" type="text" class="form-control rounded-pill" placeholder="영화제목을 입력해주세요" aria-label="Recipient's username" aria-describedby="button-addon2">
+      <div class="input-group-append">
+      </div>
+    </div>
+  </form>
+</body>
+</html>
+
+
+{% for movie in movies %}
+
+<div class="card" style="background-image: url({{movie.image}});">
+    <div class="card__inner">
+      <header class="card__header">
+        <nav class="card__nav">
+          <ul class="list list--nav">
+            <li><a href="#">Movie</a></li>
+            <li><a href="#">Reviews</a></li>
+          </ul>
+        </nav>
+      </header>
+      
+      <main class="card__body">
+        
+        <div class="card__info">
+          <h1 class="card__title">{{movie.title|safe}}</h1>
+      
+          <p class="card__slug"> 출연진 : {{movie.actor}}</p>
+        
+          <button class="card__btn" onclick="window.open('{{movie.link}}')">상세보기</button>
+  
+          <div class="card__rating">
+            {{movie.userRating}}
+          </div>
+        </div>
+      </main>
+      
+      <footer class="card__footer">
+        <ul class="list list--info">
+          <li>{{movie.pubDate}}</li>
+          <li>감독 : {{movie.director}}</li>
+        </ul>
+      </footer>
+    </div>
+  </div>
+{% endfor %}
